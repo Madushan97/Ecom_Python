@@ -1,11 +1,11 @@
-from rest_framwork import serializers
+from rest_framework import serializers
 # this will help us to make our password unreadable
 from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import authentication_classes, permission_classes
 
 from .models import CustomUser
 
-class UserSerializer(serializers.hyperlinkedModelSerializer):
+class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     # create new user
 
