@@ -1,4 +1,6 @@
 from django.contrib.auth.backends import UserModel
+from django.contrib.auth.models import Permission
+from django.db.models.query import QuerySet
 from rest_framework import viewsets
 from rest_framework.permission import AllowAny
 from .serializers import UserSerializer
@@ -60,3 +62,15 @@ def signin(request):
 
     except UserModel.DoesNotExist:
         return JsonResponse ({'error': 'Invalid Email'})
+
+class UserViewSet(viewsets.ModelViewSet):
+    Permission_classes_by_action = {'create': [AllowAny]}
+
+    querySet = CustomUser.objects.all().order_by('id')
+    serializer_class = UserSerializer
+
+    def get_permissions(self):
+        try:
+            return [Permission() for Permission in self.Permission_classes_by_action[self.action]]
+        except KeyError:
+            return [Permission() for Permission in self.Permission_classes]
