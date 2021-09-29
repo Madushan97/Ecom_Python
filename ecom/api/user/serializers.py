@@ -1,13 +1,11 @@
 from rest_framework import serializers
-# this will help us to make our password unreadable
 from django.contrib.auth.hashers import make_password
 from rest_framework.decorators import authentication_classes, permission_classes
 
 from .models import CustomUser
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
 
-    # create new user
+class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     def create(self, validated_data):
         password = validated_data.pop('password', None)
@@ -17,26 +15,19 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
             instance.set_password(password)
         instance.save()
         return instance
-    
-    # update user
 
     def update(self, instance, validated_data):
-        
         for attr, value in validated_data.items():
             if attr == 'password':
                 instance.set_password(value)
             else:
-                setattr(instance, attr, value)
+                setattr(instace, attr, value)
 
         instance.save()
         return instance
 
-
-
-
     class Meta:
         model = CustomUser
-        # adding extra parameters (add or modify)
         extra_kwargs = {'password': {'write_only': True}}
         fields = ('name', 'email', 'password', 'phone', 'gender',
-                 'is_active', 'is_staff', 'is_superuser')
+                  'is_active', 'is_staff', 'is_superuser')
