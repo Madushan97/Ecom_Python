@@ -21,6 +21,34 @@ const Signup = () => {
         setValues({...values, error: false, [name]: event.target.value})
     }
 
+    const onSubmit = (event) => {
+
+        event.preventDefault();
+        setValues({...values, error: false})
+        signup({name, email, password})
+        .then(data => {
+            console.log("DATA", data)
+
+            if(data.email === email){
+                setValues({
+                    ...values,
+                    name : "",
+                    email : "",
+                    password : "",
+                    error : "",
+                    success : true
+                })
+            } else{
+                setValues({
+                    ...values,
+                    error : true,
+                    success : false
+                })
+            }
+        })
+        .catch(e => console.log(e))
+
+    };
 
     const signUpForm = () => {
 
@@ -55,7 +83,13 @@ const Signup = () => {
                             />
                         </div>
 
-                        <button className= "btn btn-success btn-block">Submit</button>
+                        <button 
+                            onClick = {onSubmit}
+                            className= "btn btn-success btn-block"
+                        >
+                            Submit
+                        
+                        </button>
 
                     </form>
                 </div>
@@ -67,7 +101,9 @@ const Signup = () => {
     return (
         <Base title="SIgn Up Page" description="A Signup for Buying Portal">
             {signUpForm()}
-            <p>Test of signup page</p>            
+            <p className="text-white text-center">
+                {JSON.stringify(values)}
+            </p>            
         </Base>
     )
 }
