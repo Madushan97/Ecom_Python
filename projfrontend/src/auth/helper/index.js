@@ -20,22 +20,32 @@ export const signup = (user) => {
     .catch((err) => console.log(err));
 } 
 
-export const signin = user => {
+export const signin = (user) => {
 
     const formData = new FormData()
 
     for(const name in user){
 
-        formData.append(name, user[name])
+        console.log(user[name]);
+        formData.append(name, user[name]);
+    }
+
+    // const {email, password} = user;
+    // const FormData = new FormData();
+    // formData.append('email', emal)
+    // formData.append('password', password)
+
+    for(var key of formData.keys()){
+        console.log("MYKEY :", key)
     }
 
     return fetch(`${API}user/login/`, {
         method : "POST",
-        body : FormData
+        body : formData
     })
 
     .then((response) => {
-
+        console.log("SUCCESS", response);
         return response.json()
 
     })
@@ -57,7 +67,8 @@ export const isAuthenticated = () => {
         return false        
     }
     if(localStorage.getItem("jwt")){
-        return JSON.parse(localStorage.getItem("jwt"))
+        return JSON.parse(localStorage.getItem("jwt"));
+        // TODO: compare JWT with database json token
     } 
     else {
         return false;
@@ -77,7 +88,7 @@ export const signout = next => {
             method : "GET"
         })
 
-        .then(response => {
+        .then((response) => {
             console.log("Signout Success!!!");
             next();
         })
