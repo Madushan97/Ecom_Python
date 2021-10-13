@@ -44,7 +44,7 @@ const Card = ({
 
     const showAddToCart = (addToCart) => {
         return(
-            addToCart && (
+            addtoCart && (
 
                 <button
                     onClick={addToCart}
