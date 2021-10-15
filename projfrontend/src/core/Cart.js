@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import Base from "./Base"
 
+
 import Card from "./Card"
 import { loadCart } from './helper/CartHelper'
+import PaymentB from './PaymentB'
 
 const Cart = () => {
 
@@ -46,7 +48,13 @@ const Cart = () => {
                 </div>
 
                 <div className="col-6">
-                    {loadCheckout()}
+                    {products.length > 0 ? 
+                    (
+                        <PaymentB products = {products} setReload = {setReload}/>
+                    ) :
+                    (
+                        <h3>Please login or add something in cart</h3>
+                    )}
                 </div>
             </div>
         </Base>
